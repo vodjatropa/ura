@@ -1,0 +1,10 @@
+~/.cache/dnevnik
+~/.cache/vreme
+~/.cache/ikone_za_uro/  
+# format znaka/ikone: ikona_0000
+
+# skripte: 
+koledar_za_uro
+urnik # ikone
+vreme.sh
+todo
