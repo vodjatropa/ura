@@ -77,7 +77,7 @@ int resajz()
     y=dw.height();
     if (y <= x) {
         // presumably border of pixel width, times two
-        plac=y-2; // + -20 for dwm bar
+        plac=y-2;
     } else {
         plac=x-2;
     }
@@ -92,23 +92,16 @@ void MainWindow::MyTimer()
 
 double hoursToDegreese(int ura_v_minutah) {
     double stopinjice;
-    //int vmesna_uvm;
     stopinjice=((ura_v_minutah*360)/1440);
 
     if (stopinjice >= 360) {stopinjice = stopinjice - 360;}
-    if (stopinjice >= 0 && stopinjice < 270) {
-        stopinjice = 270 - stopinjice;
-    }
-    if (stopinjice >= 270 && stopinjice < 360) {
-        stopinjice = 360 - (stopinjice - 270);
-    }
-
-
+    if (stopinjice >= 0 && stopinjice < 270) {stopinjice = 270 - stopinjice;}
+    if (stopinjice >= 270 && stopinjice < 360) {stopinjice = 360 - (stopinjice - 270);}
     return stopinjice;
 }
 
 void getPointP1(double cas_v_minutah, double radijus)
-{
+{   // cas_v_minutah = time_in_minutes
     cas_v_minutah = cas_v_minutah / 4;
     cas_v_minutah = cas_v_minutah + 180;
     cas_v_minutah = cas_v_minutah * PI / 180;
@@ -192,22 +185,21 @@ void MainWindow::paintEvent(QPaintEvent *) {
     int ura_zdaj = ura.hour();
     int minuta_zdaj = ura.minute();
     int cas_zdaj_v_minutah = ((ura_zdaj * 60) + minuta_zdaj);
-
-    getPointP1(ura_vzhoda_v_minutah, radij* 9/10);     // sicer pa je to prva tocka
-    getPointP2(ura_vzhoda_v_minutah, radij+left_for_drawing);     // in to je druga
-    painter.setPen(darkgreenpen); // barva, debelina, css...
-    painter.drawLine(p1,p2);  // potegni crto
-    painter.setPen(greenpen); // barva, debelina, css...
-    painter.drawLine(p1,p2);  // potegni crto
-
-
+//  sunrise
+    getPointP1(ura_vzhoda_v_minutah, radij* 9/10);     // 1st point
+    getPointP2(ura_vzhoda_v_minutah, radij+left_for_drawing);     // 2nd point
+    painter.setPen(darkgreenpen); // colour, thicknes, css...
+    painter.drawLine(p1,p2);  // draw line
+    painter.setPen(greenpen); // colour, thicknes, css...
+    painter.drawLine(p1,p2);  // draw line
+//  sunset
     getPointP1(ura_zahoda_v_minutah, radij* 9/10);
     getPointP2(ura_zahoda_v_minutah, radij+left_for_drawing);
     painter.setPen(darkgreenpen);
     painter.drawLine(p1,p2);
     painter.setPen(greenpen);
     painter.drawLine(p1,p2);
-
+//  time now
     getPointP1(cas_zdaj_v_minutah, radij* 6/8);
     getPointP2(cas_zdaj_v_minutah, radij+left_for_drawing);
     painter.setPen(redpen);
@@ -221,6 +213,7 @@ void MainWindow::paintEvent(QPaintEvent *) {
     double us_sest = hour_number_font_size / 6;
 
 
+    // hour numbers and lines
     for( int u = 0; u < 24;  u++ ) {
         int u0 = u*60;
         int u10 = u0+10;
@@ -229,7 +222,6 @@ void MainWindow::paintEvent(QPaintEvent *) {
         int u40 = u0+40;
         int u50 = u0+50;
         QString xcv = QString::number(u);
-        // stevilke
         getPointP2(u0, radij+hour_number_font_size + us_pou);
 
         switch (u) {
